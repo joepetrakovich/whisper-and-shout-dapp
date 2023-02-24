@@ -112,9 +112,9 @@
         }
     }
 
-    onMount(() => {
-        //getMessages();
-        getSecretMessages();
+    onMount(async () => {
+        //await getMessages(); //todo: networks are different.
+        await getSecretMessages();
     });
 </script>
 
