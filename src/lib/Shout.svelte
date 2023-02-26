@@ -5,6 +5,7 @@
 	import NetworkButton from './NetworkButton.svelte';
     import { createEventDispatcher } from 'svelte';
 	import MessageBox from './MessageBox.svelte';
+	import { OASIS_EMERALD_TESTNET } from '$lib/Network';
 
     export let networkStatus: OasisNetworkStatus;
     export let currentAccount: string;
@@ -38,13 +39,14 @@
 	async function getMessages() {
         refreshing = true;
         const provider = new ethers.BrowserProvider(window.ethereum);
+
         const signer = await provider.getSigner();
         const shoutContract = new ethers.Contract(
             SHOUT_CONTRACT_ADDRESS,
             Shout.abi,
             signer
         );
-
+        
         let receivedMessages = await shoutContract.getMessages();
 
         if (!receivedMessages?.length) {
@@ -75,7 +77,7 @@
             );
 
             const transaction = await shoutContract.sendMessage(address, message, {
-                gasLimit: 400000,
+                gasLimit: 400000, 
             });
             dispatch('transactionsent', transaction);
             tx = transaction.wait();

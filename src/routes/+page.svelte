@@ -1,15 +1,39 @@
 <script lang="ts">
-	import ModeToggle from './ModeToggle.svelte';
+	import ModeToggle from '$lib/ModeToggle.svelte';
 	import { Mode, OasisNetworkStatus } from '$lib/Models';
-	import Shout from './Shout.svelte';
-	import Whisper from './Whisper.svelte';
+	import Shout from '$lib/Shout.svelte';
+	import Whisper from '$lib/Whisper.svelte';
+    import { onMount } from 'svelte';
 	import type { Readable } from 'svelte/store';
-	import { createAccountWatcherStore, createOasisNetworkWatcherStore } from '$lib/Network';
-	import NetworkButton from './NetworkButton.svelte';
+	import { createAccountWatcherStore, createOasisNetworkWatcherStore, OASIS_EMERALD_TESTNET, OASIS_SAPPHIRE_TESTNET } from '$lib/Network';
+	import NetworkButton from '$lib/NetworkButton.svelte';
 
     let mode: Mode = Mode.Shout;
+
     let oasisNetworkStatus: Readable<OasisNetworkStatus> = createOasisNetworkWatcherStore();
     let currentAccount: Readable<string> = createAccountWatcherStore();
+    let chainChaingedListener: ((chainId: string) => void) | undefined;
+
+    onMount(() => {
+        if (window.ethereum) {
+            chainChaingedListener = (chainId: string) => { 
+                 switch (chainId) {
+                     //for whatever reason, the network isn't cleaned up after sending a sapphire tx.
+                     //and then switching to emerald, so we'll force a reload...
+                     case OASIS_EMERALD_TESTNET.chainIdHex:
+                        window.location.reload();
+                        break;
+                 }
+            }
+            window.ethereum.on('chainChanged', chainChaingedListener);
+        }
+
+		return () => { 
+            if (chainChaingedListener) {
+                window.ethereum.removeListener('chainChanged', chainChaingedListener);
+            }
+        }
+    })
 </script>
 
 <nav class="navbar navbar-expand-lg bg-body-tertiary bg-dark" data-bs-theme="dark">
@@ -53,14 +77,14 @@
     <div class="rosetan-box">
         <div class="alert" 
              class:alert-success={mode === Mode.Shout} 
-             class:alert-primary={mode===Mode.Whisper}
+             class:alert-primary={mode === Mode.Whisper}
              role="alert">
             <div class="rosetan">
                 <div>
                     {#if mode === Mode.Shout}
                         <h3 class="alert-heading">Hey! I'm Rosetan!</h3>
                         <p>
-                            This is the <b>Shout</b> mode of Whisper & Shout.
+                            This is the <b>Shout</b> mode.
                         </p>
                         <p>
                             Messages you send in this mode are publicly visible to anyone, like most blockchains.
@@ -70,7 +94,7 @@
                     {:else}
                         <h3 class="alert-heading">Psssst!</h3>
                         <p>
-                            Hi, I'm Rosetan, and this is the <b>Whisper</b> mode of Whisper & Shout.
+                            Hi, I'm Rosetan, and this is the <b>Whisper</b> mode.
                         </p>
                         <p>  
                             Messages you send in this mode are <b>end-to-end encrypted</b> using the Oasis Network's <a href="https://docs.oasis.io/dapp/sapphire/" target="_blank" rel="noreferrer" class="alert-link">Sapphire</a> paratime.

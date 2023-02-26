@@ -132,12 +132,6 @@
                         <button class="btn btn-primary btn-send" on:click={sendSecretMessage}>Send</button>
                     {/if}
                 </div>
-                {#await tx}
-                    <div class="tx-pending">
-                        <span class="spinner-grow spinner-grow-sm text-secondary" role="status"></span>
-                        Transaction pending...
-                    </div>
-                {/await}
             {:else}
                 <span class="network-button">
                     <NetworkButton mode={Mode.Whisper} {networkStatus} />

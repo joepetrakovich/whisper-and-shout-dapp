@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { Mode, OasisNetworkStatus, type Network } from "$lib/Models";
 	import { addNetwork, OASIS_EMERALD_TESTNET, OASIS_SAPPHIRE_TESTNET, switchNetwork } from "$lib/Network";
+	import { tooltip } from "./Tooltip";
 
     export let mode: Mode; 
     export let networkStatus: OasisNetworkStatus;
@@ -27,7 +28,8 @@
                 <i class="bi bi-gem me-2"></i>Connected to Emerald Testnet
             </button>
         {:else}
-            <button class="btn btn-outline-success" on:click={() => switchTo(OASIS_EMERALD_TESTNET)}>
+            <button class="btn btn-outline-success" 
+                    on:click={() => switchTo(OASIS_EMERALD_TESTNET)}>
                 <i class="bi bi-gem me-2"></i>Connect to Emerald Testnet
             </button>
         {/if}
