@@ -4,8 +4,12 @@
     import Whisper from '$lib/Whisper.json';
 	import NetworkButton from './NetworkButton.svelte';
 	import { Mode, OasisNetworkStatus, type Message } from '$lib/Models';
+	import { createEventDispatcher } from 'svelte';
+	import MessageBox from './MessageBox.svelte';
 
     export let networkStatus: OasisNetworkStatus;
+
+    const dispatch = createEventDispatcher();
 
     let connectedToSapphire: boolean;
     $: connectedToSapphire = networkStatus === OasisNetworkStatus.ON_SAPPHIRE_PARATIME;
@@ -52,7 +56,8 @@
             const transaction = await whisperContract.sendMessage(address, message, {
                 gasLimit: 400000,
             });
-            await transaction.wait();
+            dispatch('transactionsent', transaction);
+            //await transaction.wait();
 
             address = '';
             message = '';
@@ -71,36 +76,35 @@
         <div class="mb-3">
             <textarea bind:value={message} id="message" class="form-control" rows="5" cols="33" placeholder="Write something..." />
         </div>
-        <div class="d-flex justify-content-end">
+        <div class="d-flex justify-content-between">
+            <img src="sapphire-certified.png" alt="sapphire-certified" class="gem" height="56">
             {#if connectedToSapphire}
                 <button class="btn btn-primary btn-send" on:click={sendSecretMessage}>Send</button>
             {:else}
-                <NetworkButton mode={Mode.Whisper} {networkStatus} />
+                <span class="network-button">
+                    <NetworkButton mode={Mode.Whisper} {networkStatus} />
+                </span>
             {/if}
         </div>
     </div>
 </div>
 
-<h4>
-    Whispers 
+<MessageBox {messages} emptyMessage="No whispers yet">
+    <span>
+        <i class="bi bi-incognito"></i>&nbsp;Whispers
+    </span>
     {#if connectedToSapphire}
-        <button class="btn btn-primary" on:click={getSecretMessages}>Sign To Refresh</button>
+        <button class="btn btn-sm btn-secondary" on:click={getSecretMessages}>Sign To Refresh</button>
     {/if}
-</h4>
-
-{#if messages.length} 
-    <ul>
-        {#each messages as message}
-            <li>{message.text}</li>
-        {/each}
-    </ul>
-{:else}
-    <i>No whispers yet</i>
-{/if}
+</MessageBox>
 
 <style>
     .btn-send {
         width: 100px;
+        align-self: flex-end;
+    }
+    span.network-button {
+        align-self: flex-end;
     }
 </style>
 

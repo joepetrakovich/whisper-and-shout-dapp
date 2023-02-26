@@ -23,17 +23,25 @@
 
     {#if mode === Mode.Shout}
         {#if networkStatus === OasisNetworkStatus.ON_EMERALD_PARATIME}
-            <button class="btn btn-success btn-metamask" disabled>Connected to Emerald</button>
+            <button class="btn btn-success btn-metamask" disabled>
+                <i class="bi bi-gem"></i>&nbsp;Connected to Emerald
+            </button>
         {:else}
-            <button class="btn btn-outline-success btn-metamask" on:click={() => switchTo(OASIS_EMERALD_TESTNET)}>Connect to Emerald</button>
+            <button class="btn btn-outline-success btn-metamask" on:click={() => switchTo(OASIS_EMERALD_TESTNET)}>
+                <i class="bi bi-gem"></i>&nbsp;Connect to Emerald
+            </button>
         {/if}
     {/if}
 
     {#if mode === Mode.Whisper}
         {#if networkStatus === OasisNetworkStatus.ON_SAPPHIRE_PARATIME}
-            <button class="btn btn-primary btn-metamask" disabled>Connected to Sapphire</button>
+            <button class="btn btn-primary btn-metamask" disabled>
+                <i class="bi bi-suit-diamond-fill"></i>&nbsp;Connected to Sapphire
+            </button>
         {:else}
-            <button class="btn btn-outline-primary btn-metamask" on:click={() => switchTo(OASIS_SAPPHIRE_TESTNET)}>Connect to Sapphire</button>
+            <button class="btn btn-outline-primary btn-metamask" on:click={() => switchTo(OASIS_SAPPHIRE_TESTNET)}>
+                <i class="bi bi-suit-diamond-fill"></i>&nbsp;Connect to Sapphire
+            </button>
         {/if}
     {/if}
 

@@ -1,16 +1,19 @@
 
 ## TODO
------------------------------------
-- ui cleanup.
--- nicer message list
--- sapphire goes dark.
--- icons for sapphire, emerald
+---------------------------------
+DONE - test on ff
+DONE -- replace favicon.
+
+-- add from name and blockstamp.
+-- add reply button
 -- alert messages about concepts.
--- keep messages cached. clear on refresh.
--- clear fields on send.
+-- put link to faucet in speechbubble from rosetan
+-- show tx queues
 -- wait spinner success on send.
 -- wait spinner on refresh.
--- better position of refresh buttons, maybe a card wrap.
-
-- deploy to mainnets
+-- fix undefined when no items
+-- show accountID
+-- add testnet badge
 - deploy site live.
+
+- announce

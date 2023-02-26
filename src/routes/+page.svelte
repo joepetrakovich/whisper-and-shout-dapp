@@ -14,7 +14,12 @@
 
 <nav class="navbar bg-body-tertiary bg-dark" data-bs-theme="dark">
 	<div class="container">
-		<span class="navbar-brand"> Whisper & Shout </span>
+		<span class="navbar-brand">
+            <i class="bi bi-incognito"></i> ||
+            <i class="bi bi-megaphone-fill"></i>
+            &nbsp;
+            Whisper & Shout
+        </span>
 
 		<span class="right-controls">
 			<a href="https://oasisprotocol.org/" class="navbar-brand powered-by-oasis">
@@ -32,22 +37,20 @@
 	</div>
 </nav>
 
-<div class="container p-4 mw-600">
-    <div class="container p-0 m-0 my-3">
+<div class="main">
+    <div>
         <ModeToggle bind:mode />
     </div>
-
-    {#if mode === Mode.Shout}
+    <div style:display={mode === Mode.Shout ? '' : 'none'}>
         <Shout networkStatus={$oasisNetworkStatus} />
-    {:else}
+    </div>
+    <div style:display={mode === Mode.Whisper ? '' : 'none'}>
         <Whisper networkStatus={$oasisNetworkStatus} />
-    {/if}
+    </div>
+    <img class="rosetan" src="comfy.png" alt="Comfy Rosetan" width="10%">
 </div>
 
 <style>
-    .mw-600 {
-        max-width: 600px;
-    }
 	.powered-by-oasis {
 		display: flex;
 		gap: 8px;
@@ -55,7 +58,18 @@
 		font-style: italic;
 		color: #65c1ff;
 	}
+    .main {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        max-width: 600px;
+        padding: 2em;
+        margin: 0 auto;
+    }
 	.right-controls {
 		display: flex;
 	}
+    img.rosetan {
+        align-self: flex-end;
+    }
 </style>

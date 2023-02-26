@@ -3,8 +3,12 @@
     import Shout from '$lib/Shout.json';
 	import { Mode, OasisNetworkStatus, type Message } from '$lib/Models';
 	import NetworkButton from './NetworkButton.svelte';
+    import { createEventDispatcher } from 'svelte';
+	import MessageBox from './MessageBox.svelte';
 
     export let networkStatus: OasisNetworkStatus;
+
+    const dispatch = createEventDispatcher();
     
     let connectedToEmerald: boolean;
     $: connectedToEmerald = networkStatus === OasisNetworkStatus.ON_EMERALD_PARATIME;
@@ -51,7 +55,8 @@
             const transaction = await shoutContract.sendMessage(address, message, {
                 gasLimit: 400000,
             });
-            await transaction.wait();
+            dispatch('transactionsent', transaction);
+            //await transaction.wait();
 
             address = '';
             message = '';
@@ -70,35 +75,35 @@
         <div class="mb-3">
             <textarea bind:value={message} id="message" class="form-control" rows="5" cols="33" placeholder="Write something..." />
         </div>
-        <div class="d-flex justify-content-end">
+        <div class="d-flex justify-content-between">
+            <img src="emerald-certified.png" alt="emerald-certified" class="gem" height="56">
             {#if connectedToEmerald}
-                <button class="btn btn-primary btn-send" on:click={sendMessage}>Send</button>
+                <button class="btn btn-success btn-send" on:click={sendMessage}>Send</button>
             {:else}
+            <span class="network-button">
                 <NetworkButton mode={Mode.Shout} {networkStatus} />
+            </span>
             {/if}
         </div>
     </div>
 </div>
 
-<h4>
-    Shouts
+<MessageBox {messages} emptyMessage="No shouts yet">
+    <span>
+        <i class="bi bi-megaphone-fill"></i>&nbsp;Shouts
+    </span>
     {#if connectedToEmerald}
-        <button class="btn btn-primary" on:click={getMessages}>Refresh</button>
+        <button class="btn btn-sm btn-secondary" on:click={getMessages}>Refresh</button>
     {/if}
-</h4>
-{#if messages.length} 
-    <ul>
-        {#each messages as message}
-            <li>{message.text}</li>
-        {/each}
-    </ul>
-{:else}
-    <i>No shouts yet</i>
-{/if}
+</MessageBox>
 
 <style>
     .btn-send {
         width: 100px;
+        align-self: flex-end;
+    }
+    span.network-button {
+        align-self: flex-end;
     }
 </style>
 
