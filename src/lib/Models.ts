@@ -22,4 +22,4 @@ export interface Network {
     nativeCurrency: Currency
 }
 
-export type Message = { from: string; text: string; timestamp: string };
+export type Message = { from: string; text: string; timestamp: bigint };

@@ -86,3 +86,18 @@ export function createOasisNetworkWatcherStore(): Readable<OasisNetworkStatus> {
 
     return store;
 }
+
+export function createAccountWatcherStore(): Readable<string> {
+    const store = readable<string>('Connecting...', set => {
+
+        const interval = setInterval(async () => {
+            if (window.ethereum) {
+                set(window.ethereum.selectedAddress);
+            }
+        }, 1000);
+
+        return () => clearInterval(interval); 
+    });
+
+    return store;
+}
