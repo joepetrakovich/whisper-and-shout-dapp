@@ -83,7 +83,7 @@
                 signer
             );
 
-            const transaction = await shoutContract.sendMessage(address, message, {
+            const transaction = await shoutContract.sendMessage(address.trim(), message, {
                 gasLimit: 400000, 
             });
             dispatch('transactionsent', transaction);
