@@ -1,151 +1,61 @@
 <script lang="ts">
-    import { ethers } from 'ethers'
-    import * as sapphire from '@oasisprotocol/sapphire-paratime';
-    import Whisper from '$lib/Whisper.json';
-    import Shout from '$lib/Shout.json';
     import { onMount } from 'svelte';
+	import ModeToggle from './ModeToggle.svelte';
+	import { Mode, OasisNetworkStatus } from '$lib/Models';
+	import Shout from './Shout.svelte';
+	import Whisper from './Whisper.svelte';
+	import type { Readable } from 'svelte/store';
+	import { createOasisNetworkWatcherStore } from '$lib/Network';
+	import NetworkButton from './NetworkButton.svelte';
 
-    const SHOUT_CONTRACT_ADDRESS="0xea839C7542FB2419B9f71A0bdff6D4fa3dbca792";
-    const WHISPER_CONTRACT_ADDRESS="0xebcc16233DE34C1945214C92896eb88182bC8def";
-
-    type Message = { from: string; text: string; timestamp: string };
-
-    let messages: Message[] = [];
-    let message: string = '';
-    let address: string = '';
-
-	async function getMessages() {
-		if (!window.ethereum) {
-			return;
-		}
-
-		const provider = new ethers.BrowserProvider(window.ethereum);
-        const signer = await provider.getSigner();
-		const shoutContract = new ethers.Contract(
-			SHOUT_CONTRACT_ADDRESS,
-			Shout.abi,
-            signer
-		);
-
-        let receivedMessages = await shoutContract.getMessages();
-
-         const normalizeMessage = (message: any) => ({
-             from: message.from,
-             text: message.text,
-             timestamp: message.timestamp,
-         });
-
-         messages = receivedMessages
-             .map(normalizeMessage)
-             .sort((a: any, b: any) => b.timestamp - a.timestamp);
-    }
-
-    async function sendMessage() {   
-        try {
-            const provider = new ethers.BrowserProvider(window.ethereum);
-            const signer = await provider.getSigner();
-            const shoutContract = new ethers.Contract(
-                SHOUT_CONTRACT_ADDRESS,
-                Shout.abi,
-                signer
-            );
-
-            const transaction = await shoutContract.sendMessage(address, message, {
-                gasLimit: 400000,
-            });
-            await transaction.wait();
-
-            address = '';
-            message = '';
-        
-        } catch (error) {
-            alert('Error while sending message: ' + error);
-        }
-    }
-
-    async function getSecretMessages() {
-		if (!window.ethereum) {
-			return;
-		}
-
-        window.ethereum = sapphire.wrap(window.ethereum);
-
-		const whisperContract = new ethers.Contract(
-			WHISPER_CONTRACT_ADDRESS,
-			Whisper.abi,
-            await new ethers.BrowserProvider(window.ethereum).getSigner()
-		);
-
-        let receivedMessages = await whisperContract.getMessages();
-
-         const normalizeMessage = (message: any) => ({
-             from: message.from,
-             text: message.text,
-             timestamp: message.timestamp,
-         });
-
-         messages = receivedMessages
-             .map(normalizeMessage)
-             .sort((a: any, b: any) => b.timestamp - a.timestamp);
-    }
-
-    async function sendSecretMessage() {   
-        try {
-            window.ethereum = sapphire.wrap(window.ethereum);
-
-            const whisperContract = new ethers.Contract(
-                WHISPER_CONTRACT_ADDRESS,
-                Whisper.abi,
-                await new ethers.BrowserProvider(window.ethereum).getSigner()
-            );
-
-            const transaction = await whisperContract.sendMessage(address, message, {
-                gasLimit: 400000,
-            });
-            await transaction.wait();
-
-            address = '';
-            message = '';
-        
-        } catch (error) {
-            alert('Error while sending message: ' + error);
-        }
-    }
-
-    onMount(async () => {
-        //await getMessages(); //todo: networks are different.
-        await getSecretMessages();
-    });
+    let mode: Mode = Mode.Shout;
+    let oasisNetworkStatus: Readable<OasisNetworkStatus> = createOasisNetworkWatcherStore();
 </script>
 
-<div>
-    <h1>Whisper & Shout</h1>
+<nav class="navbar bg-body-tertiary bg-dark" data-bs-theme="dark">
+	<div class="container">
+		<span class="navbar-brand"> Whisper & Shout </span>
 
-    <input bind:value={address} type="text" placeholder="Address" />
-    <textarea bind:value={message} rows="5" cols="33" placeholder="Write something..." />
-    <button on:click={sendMessage}>Shout</button>
-    <button on:click={sendSecretMessage}>Whisper</button>
+		<span class="right-controls">
+			<a href="https://oasisprotocol.org/" class="navbar-brand powered-by-oasis">
+				<img
+					src="oasis-logo.png"
+					alt="Powered by Oasis"
+					width="30"
+					height="30"
+					class="d-inline-block"
+				/>
+				Powered by Oasis
+			</a>
+            <NetworkButton {mode} networkStatus={$oasisNetworkStatus} />
+		</span>
+	</div>
+</nav>
 
-    <h2>Messages</h2>
-        {#if messages.length} 
-            <ul>
-                {#each messages as message}
-                    <li>{message.text}</li>
-                {/each}
-            </ul>
-        {:else}
-            <i>No messages yet</i>
-        {/if}
+<div class="container p-4 mw-600">
+    <div class="container p-0 m-0 my-3">
+        <ModeToggle bind:mode />
+    </div>
+
+    {#if mode === Mode.Shout}
+        <Shout networkStatus={$oasisNetworkStatus} />
+    {:else}
+        <Whisper networkStatus={$oasisNetworkStatus} />
+    {/if}
 </div>
 
 <style>
-    div {
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-        max-width: 500px;
-        margin: 0 auto;
+    .mw-600 {
+        max-width: 600px;
     }
+	.powered-by-oasis {
+		display: flex;
+		gap: 8px;
+		align-items: center;
+		font-style: italic;
+		color: #65c1ff;
+	}
+	.right-controls {
+		display: flex;
+	}
 </style>
-
-

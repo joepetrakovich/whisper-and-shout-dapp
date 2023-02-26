@@ -32,6 +32,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@metamask/onboarding": "^1.0.1",
 		"ethers": "^6.0.6"
 	}
 }
