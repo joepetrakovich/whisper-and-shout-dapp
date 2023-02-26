@@ -16,6 +16,7 @@
 
     onMount(() => {
         if (window.ethereum) {
+            
             chainChaingedListener = (chainId: string) => { 
                  switch (chainId) {
                      //for whatever reason, the network isn't cleaned up after sending a sapphire tx.
@@ -66,12 +67,15 @@
 
 <nav class="navbar">
     <div class="container d-flex justify-content-end">
-        <span class="badge rounded-pill text-bg-secondary current-account">
-            <i class="bi bi-person-circle me-1"></i>
-            {$currentAccount}
-        </span>
+        {#if $currentAccount}
+            <span class="badge rounded-pill text-bg-secondary current-account">
+                <i class="bi bi-person-circle me-1"></i>
+                {$currentAccount}
+            </span>
+        {/if}
     </div>
 </nav>
+
 
 <div class="main">
     <div class="rosetan-box">

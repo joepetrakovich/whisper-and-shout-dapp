@@ -58,6 +58,10 @@ async function getOasisNetworkConnectionStatus(): Promise<OasisNetworkStatus> {
         const provider = new ethers.BrowserProvider(window.ethereum);
         const network = await provider.getNetwork();
 
+        if (!window.ethereum.selectedAddress) {
+            return OasisNetworkStatus.WALLET_NOT_CONNECTED;
+        }
+
         if (network.chainId.toString() === OASIS_EMERALD_TESTNET.chainIdDecimal.toString()) {
             return OasisNetworkStatus.ON_EMERALD_PARATIME;
         }

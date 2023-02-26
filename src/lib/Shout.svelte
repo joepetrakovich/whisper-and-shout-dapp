@@ -103,10 +103,10 @@
 <div class="card mb-3">
     <div class="card-body">
         <div class="mb-3">
-            <input bind:value={address} id="address" class="form-control" type="text" placeholder="Address" />
+            <input bind:value={address} autocomplete="new-password" id="address" class="form-control" type="text" placeholder="Address" />
         </div>
         <div class="mb-3">
-            <textarea bind:value={message} id="message" class="form-control" rows="4" cols="33" placeholder="Write something... (everyone can see)" />
+            <textarea bind:value={message} autocomplete="new-password" id="message" class="form-control" rows="4" cols="33" placeholder="Write something... (everyone can see)" />
             {#await tx}
                 <div class="tx-pending">
                     <span class="spinner-grow spinner-grow-sm text-secondary" role="status"></span>

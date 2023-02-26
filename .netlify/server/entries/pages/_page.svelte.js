@@ -9,10 +9,11 @@ var Mode = /* @__PURE__ */ ((Mode2) => {
 })(Mode || {});
 var OasisNetworkStatus = /* @__PURE__ */ ((OasisNetworkStatus2) => {
   OasisNetworkStatus2[OasisNetworkStatus2["INITIALIZING"] = 0] = "INITIALIZING";
-  OasisNetworkStatus2[OasisNetworkStatus2["PROVIDER_NOT_FOUND"] = 1] = "PROVIDER_NOT_FOUND";
-  OasisNetworkStatus2[OasisNetworkStatus2["ON_DIFFERENT_NETWORK"] = 2] = "ON_DIFFERENT_NETWORK";
-  OasisNetworkStatus2[OasisNetworkStatus2["ON_EMERALD_PARATIME"] = 3] = "ON_EMERALD_PARATIME";
-  OasisNetworkStatus2[OasisNetworkStatus2["ON_SAPPHIRE_PARATIME"] = 4] = "ON_SAPPHIRE_PARATIME";
+  OasisNetworkStatus2[OasisNetworkStatus2["WALLET_NOT_CONNECTED"] = 1] = "WALLET_NOT_CONNECTED";
+  OasisNetworkStatus2[OasisNetworkStatus2["PROVIDER_NOT_FOUND"] = 2] = "PROVIDER_NOT_FOUND";
+  OasisNetworkStatus2[OasisNetworkStatus2["ON_DIFFERENT_NETWORK"] = 3] = "ON_DIFFERENT_NETWORK";
+  OasisNetworkStatus2[OasisNetworkStatus2["ON_EMERALD_PARATIME"] = 4] = "ON_EMERALD_PARATIME";
+  OasisNetworkStatus2[OasisNetworkStatus2["ON_SAPPHIRE_PARATIME"] = 5] = "ON_SAPPHIRE_PARATIME";
   return OasisNetworkStatus2;
 })(OasisNetworkStatus || {});
 const ModeToggle = create_ssr_component(($$result, $$props, $$bindings, slots) => {
@@ -56,6 +57,9 @@ async function getOasisNetworkConnectionStatus() {
     }
     const provider = new ethers.BrowserProvider(window.ethereum);
     const network = await provider.getNetwork();
+    if (!window.ethereum.selectedAddress) {
+      return OasisNetworkStatus.WALLET_NOT_CONNECTED;
+    }
     if (network.chainId.toString() === OASIS_EMERALD_TESTNET.chainIdDecimal.toString()) {
       return OasisNetworkStatus.ON_EMERALD_PARATIME;
     }
@@ -101,13 +105,14 @@ const NetworkButton = create_ssr_component(($$result, $$props, $$bindings, slots
   if ($$props.networkStatus === void 0 && $$bindings.networkStatus && networkStatus !== void 0)
     $$bindings.networkStatus(networkStatus);
   $$result.css.add(css$2);
-  return `${networkStatus === OasisNetworkStatus.INITIALIZING ? `<button class="${"btn btn-secondary"}" disabled><span class="${"spinner-border spinner-border-sm me-2"}" role="${"status"}" aria-hidden="${"true"}"></span>Initializing...</button>` : `${networkStatus === OasisNetworkStatus.PROVIDER_NOT_FOUND ? `<a href="${"https://metamask.io/"}" target="${"_blank"}" rel="${"noreferrer"}" class="${"btn btn-outline-warning"}">Install MetaMask</a>` : `${mode === Mode.Shout ? `${networkStatus === OasisNetworkStatus.ON_EMERALD_PARATIME ? `<button class="${"btn btn-success glow svelte-u2hr4o"}"><i class="${"bi bi-gem me-2"}"></i>Connected to Emerald Testnet
+  return `${networkStatus === OasisNetworkStatus.INITIALIZING ? `<button class="${"btn btn-secondary"}" disabled><span class="${"spinner-border spinner-border-sm me-2"}" role="${"status"}" aria-hidden="${"true"}"></span>Initializing...</button>` : `${networkStatus === OasisNetworkStatus.PROVIDER_NOT_FOUND ? `<a href="${"https://metamask.io/"}" target="${"_blank"}" rel="${"noreferrer"}" class="${"btn btn-outline-warning"}">Install MetaMask</a>` : `${networkStatus === OasisNetworkStatus.WALLET_NOT_CONNECTED ? `<button class="${"btn btn-secondary"}"><i class="${"bi bi-gem me-2"}"></i>Connect Wallet
+    </button>` : `${mode === Mode.Shout ? `${networkStatus === OasisNetworkStatus.ON_EMERALD_PARATIME ? `<button class="${"btn btn-success glow svelte-u2hr4o"}"><i class="${"bi bi-gem me-2"}"></i>Connected to Emerald Testnet
             </button>` : `<button class="${"btn btn-outline-success"}"><i class="${"bi bi-gem me-2"}"></i>Connect to Emerald Testnet
             </button>`}` : ``}
 
     ${mode === Mode.Whisper ? `${networkStatus === OasisNetworkStatus.ON_SAPPHIRE_PARATIME ? `<button class="${"btn btn-primary glow svelte-u2hr4o"}"><i class="${"bi bi-suit-diamond-fill me-2"}"></i>Connected to Sapphire Testnet
             </button>` : `<button class="${"btn btn-outline-primary"}"><i class="${"bi bi-suit-diamond-fill me-2"}"></i>Connect to Sapphire Testnet
-            </button>`}` : ``}`}`}`;
+            </button>`}` : ``}`}`}`}`;
 });
 const MessageBox_svelte_svelte_type_style_lang = "";
 const css$1 = {
@@ -160,8 +165,8 @@ const Shout_1 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
     $$bindings.currentAccount(currentAccount);
   currentAccount && reset();
   connectedToEmerald = networkStatus === OasisNetworkStatus.ON_EMERALD_PARATIME;
-  return `<div class="${"card mb-3"}"><div class="${"card-body"}"><div class="${"mb-3"}"><input id="${"address"}" class="${"form-control"}" type="${"text"}" placeholder="${"Address"}"${add_attribute("value", address, 0)}></div>
-        <div class="${"mb-3"}"><textarea id="${"message"}" class="${"form-control"}" rows="${"4"}" cols="${"33"}" placeholder="${"Write something... (everyone can see)"}">${message || ""}</textarea>
+  return `<div class="${"card mb-3"}"><div class="${"card-body"}"><div class="${"mb-3"}"><input autocomplete="${"new-password"}" id="${"address"}" class="${"form-control"}" type="${"text"}" placeholder="${"Address"}"${add_attribute("value", address, 0)}></div>
+        <div class="${"mb-3"}"><textarea autocomplete="${"new-password"}" id="${"message"}" class="${"form-control"}" rows="${"4"}" cols="${"33"}" placeholder="${"Write something... (everyone can see)"}">${message || ""}</textarea>
             ${function(__value) {
     if (is_promise(__value)) {
       __value.then(null, noop);
@@ -219,8 +224,8 @@ const Whisper_1 = create_ssr_component(($$result, $$props, $$bindings, slots) =>
     $$bindings.currentAccount(currentAccount);
   currentAccount && reset();
   connectedToSapphire = networkStatus === OasisNetworkStatus.ON_SAPPHIRE_PARATIME;
-  return `<div class="${"card mb-3"}"><div class="${"card-body"}"><div class="${"mb-3"}"><input id="${"address"}" class="${"form-control"}" type="${"text"}" placeholder="${"Address"}"${add_attribute("value", address, 0)}></div>
-        <div class="${"mb-3"}"><textarea id="${"message"}" class="${"form-control"}" rows="${"4"}" cols="${"33"}" placeholder="${"Write something... (it's end-to-end encrypted)"}">${message || ""}</textarea>
+  return `<div class="${"card mb-3"}"><div class="${"card-body"}"><div class="${"mb-3"}"><input autocomplete="${"new-password"}" id="${"address"}" class="${"form-control"}" type="${"text"}" placeholder="${"Address"}"${add_attribute("value", address, 0)}></div>
+        <div class="${"mb-3"}"><textarea autocomplete="${"new-password"}" id="${"message"}" class="${"form-control"}" rows="${"4"}" cols="${"33"}" placeholder="${"Write something... (it's end-to-end encrypted)"}">${message || ""}</textarea>
             ${function(__value) {
     if (is_promise(__value)) {
       __value.then(null, noop);
@@ -287,8 +292,9 @@ const Page = create_ssr_component(($$result, $$props, $$bindings, slots) => {
                 </a></div>
             ${validate_component(NetworkButton, "NetworkButton").$$render($$result, { mode, networkStatus: $oasisNetworkStatus }, {}, {})}</span></div></nav>
 
-<nav class="${"navbar"}"><div class="${"container d-flex justify-content-end"}"><span class="${"badge rounded-pill text-bg-secondary current-account svelte-1hr8dyi"}"><i class="${"bi bi-person-circle me-1"}"></i>
-            ${escape($currentAccount)}</span></div></nav>
+<nav class="${"navbar"}"><div class="${"container d-flex justify-content-end"}">${$currentAccount ? `<span class="${"badge rounded-pill text-bg-secondary current-account svelte-1hr8dyi"}"><i class="${"bi bi-person-circle me-1"}"></i>
+                ${escape($currentAccount)}</span>` : ``}</div></nav>
+
 
 <div class="${"main svelte-1hr8dyi"}"><div class="${"rosetan-box"}"><div class="${[
       "alert",
