@@ -74,7 +74,7 @@
             </span>
         {/if}
         <span class="github badge rounded-pill text-bg-secondary">
-            <a href="https://github.com/joepetrakovich/whisper-and-shout-dapp"><i class="bi bi-github me-2"></i>Github</a>
+            <a href="https://github.com/joepetrakovich/whisper-and-shout-dapp" target="_blank" rel="noreferrer"><i class="bi bi-github me-2"></i>Github</a>
         </span>
     </div>
 </nav>
