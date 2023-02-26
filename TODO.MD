@@ -1,5 +1,4 @@
 
 ## TODO
 ------------------------
-- deploy site live.
-- announce
+- announce beta testing

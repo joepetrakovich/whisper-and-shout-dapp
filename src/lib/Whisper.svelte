@@ -87,7 +87,7 @@
                 await new ethers.BrowserProvider(window.ethereum).getSigner()
             );
 
-            const transaction = await whisperContract.sendMessage(address, message, {
+            const transaction = await whisperContract.sendMessage(address.trim(), message, {
                 gasLimit: 400000,
             });
             dispatch('transactionsent', transaction);
