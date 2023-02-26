@@ -1,7 +1,9 @@
 
 # Whisper and Shout
 
-A simple messaging dApp demonstrating Oasis Emerald and Sapphire paratimes.
+A simple messaging dApp demonstrating Oasis Emerald and Sapphire paratimes.  Currently live on Testnet(s):
+
+https://regal-lolly-1de037.netlify.app/
 
 ## Development
 

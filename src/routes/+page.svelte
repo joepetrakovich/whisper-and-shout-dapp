@@ -47,7 +47,7 @@
             </span>
         </div>
 
-        <span class="right-controls">
+        <div class="right-controls">
             <div class="collapse navbar-collapse"> 
                 <a href="https://oasisprotocol.org/" target="_blank" rel="noreferrer" class="navbar-brand powered-by-oasis">
                     <img
@@ -61,18 +61,21 @@
                 </a>
             </div>
             <NetworkButton {mode} networkStatus={$oasisNetworkStatus} />
-        </span>
+        </div>
 	</div>
 </nav>
 
 <nav class="navbar">
-    <div class="container d-flex justify-content-end">
+    <div class="container account-badge">
         {#if $currentAccount}
             <span class="badge rounded-pill text-bg-secondary current-account">
                 <i class="bi bi-person-circle me-1"></i>
                 {$currentAccount}
             </span>
         {/if}
+        <span class="github badge rounded-pill text-bg-secondary">
+            <a href="https://github.com/joepetrakovich/whisper-and-shout-dapp"><i class="bi bi-github me-2"></i>Github</a>
+        </span>
     </div>
 </nav>
 
@@ -123,8 +126,17 @@
 </div>
 
 <style>
-    .current-account {
+    .current-account, .github {
         font-size: 0.9rem;
+    }
+    .account-badge {
+        display:flex;
+        justify-content: end;
+        gap:8px;
+    }
+    .github a {
+        text-decoration: none;
+        color: white;
     }
 	.powered-by-oasis {
 		display: flex;
@@ -143,6 +155,7 @@
     }
 	.right-controls {
 		display: flex;
+        gap: 8px;
 	}
     .rosetan {
         display: flex;
