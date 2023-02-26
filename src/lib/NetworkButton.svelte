@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { Mode, OasisNetworkStatus, type Network } from "$lib/Models";
 	import { addNetwork, OASIS_EMERALD_TESTNET, OASIS_SAPPHIRE_TESTNET, switchNetwork } from "$lib/Network";
-	import { tooltip } from "./Tooltip";
 
     export let mode: Mode; 
     export let networkStatus: OasisNetworkStatus;
@@ -18,10 +17,11 @@
     }
 </script>
 
-{#if networkStatus === OasisNetworkStatus.PROVIDER_NOT_FOUND}
+{#if networkStatus === OasisNetworkStatus.INITIALIZING}
+    <button class="btn btn-secondary" disabled> <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Initializing...</button>
+{:else if networkStatus === OasisNetworkStatus.PROVIDER_NOT_FOUND}
     <a href="https://metamask.io/" target="_blank" rel="noreferrer" class="btn btn-outline-warning">Install MetaMask</a>
 {:else}
-
     {#if mode === Mode.Shout}
         {#if networkStatus === OasisNetworkStatus.ON_EMERALD_PARATIME}
             <button class="btn btn-success glow">

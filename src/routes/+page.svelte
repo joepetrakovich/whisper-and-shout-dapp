@@ -97,8 +97,9 @@
                             Hi, I'm Rosetan, and this is the <b>Whisper</b> mode.
                         </p>
                         <p>  
-                            Messages you send in this mode are <b>end-to-end encrypted</b> using the Oasis Network's <a href="https://docs.oasis.io/dapp/sapphire/" target="_blank" rel="noreferrer" class="alert-link">Sapphire</a> paratime.
+                            Messages you send in this mode are <b>end-to-end encrypted</b> using the Oasis Network's <a href="https://docs.oasis.io/dapp/sapphire/" target="_blank" rel="noreferrer" class="alert-link">Sapphire</a> paratime, a confidential EVM.
                         </p>
+                        
                     {/if}
                 </div>
                 <img src="comfy.png" alt="Comfy Rosetan" width="60">

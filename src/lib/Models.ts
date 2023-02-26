@@ -1,6 +1,7 @@
 export enum Mode { Whisper, Shout };
 
 export enum OasisNetworkStatus { 
+    INITIALIZING,
     PROVIDER_NOT_FOUND, 
     ON_DIFFERENT_NETWORK, 
     ON_EMERALD_PARATIME, 

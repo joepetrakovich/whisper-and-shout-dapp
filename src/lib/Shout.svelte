@@ -47,7 +47,15 @@
             signer
         );
         
-        let receivedMessages = await shoutContract.getMessages();
+        let receivedMessages = [];
+
+        try {
+            receivedMessages = await shoutContract.getMessages();
+        } catch(error) {
+            console.error(`An error occurred getting shouts. Error: ${error}`);
+        }
+
+        refreshing = false;
 
         if (!receivedMessages?.length) {
             return;
@@ -62,7 +70,6 @@
         messages = receivedMessages
             .map(normalizeMessage)
             .sort((a: any, b: any) => Number(b.timestamp) - Number(a.timestamp));
-        refreshing = false;
     }
 
     async function sendMessage() {   

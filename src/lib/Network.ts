@@ -75,7 +75,7 @@ async function getOasisNetworkConnectionStatus(): Promise<OasisNetworkStatus> {
 }
 
 export function createOasisNetworkWatcherStore(): Readable<OasisNetworkStatus> {
-    const store = readable<OasisNetworkStatus>(OasisNetworkStatus.PROVIDER_NOT_FOUND, set => {
+    const store = readable<OasisNetworkStatus>(OasisNetworkStatus.INITIALIZING, set => {
 
         const interval = setInterval(async () => {
             set(await getOasisNetworkConnectionStatus());
