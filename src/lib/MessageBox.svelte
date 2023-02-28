@@ -34,10 +34,10 @@
 
 <style>
     .from {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
         font-size: 0.8rem;
         color: gray;
+    }
+    .from small {
+        float: right;
     }
 </style>

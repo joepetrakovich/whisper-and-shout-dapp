@@ -111,19 +111,22 @@
         </div>
         <div class="mb-3">
             <textarea bind:value={message} autocomplete="new-password" id="message" class="form-control" rows="4" cols="33" placeholder="Write something... (it's end-to-end encrypted)" />
-            {#await tx}
-                <div class="tx-pending">
-                    <span class="spinner-grow spinner-grow-sm text-secondary" role="status"></span>
-                    Transaction pending...
-                </div>
-            {/await}
+            <div class="tx-pending">
+                <a href="https://faucet.testnet.oasis.dev/" target="_blank" rel="noreferrer" class="text-primary">Get Testnet Tokens<i class="bi bi-droplet-fill ms-1"></i></a>
+                {#await tx}
+                    <div>
+                        <span class="spinner-grow spinner-grow-sm text-secondary" role="status"></span>
+                        Transaction pending...
+                    </div>
+                {/await}
+            </div>
         </div>
         <div class="d-flex justify-content-between">
-            <img src="sapphire-certified.png" alt="sapphire-certified" class="gem" height="56">
+            <img src="sapphire-certified.png" alt="sapphire-certified" class="gem d-none d-sm-block" height="56">
+            <div class="d-block d-sm-none"></div>
             {#if connectedToSapphire}
                 <div class="send-container">
-                    <a href="https://faucet.testnet.oasis.dev/" target="_blank" rel="noreferrer" class="text-primary">Get Testnet Tokens<i class="bi bi-droplet-fill ms-1"></i></a>        
-                    {#if sending}
+                   {#if sending}
                         <button class="btn btn-primary" type="button" disabled>
                             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                             Sending...
@@ -143,7 +146,8 @@
 
 <MessageBox {messages} emptyMessage="No whispers yet">
     <span>
-        <i class="bi bi-incognito me-2"></i>Whispers
+        <i class="bi bi-incognito me-2"></i>
+        <span class="d-none d-sm-inline-block">Whispers</span>
     </span>
     {#if connectedToSapphire}
         {#if refreshing}

@@ -107,19 +107,22 @@
         </div>
         <div class="mb-3">
             <textarea bind:value={message} autocomplete="new-password" id="message" class="form-control" rows="4" cols="33" placeholder="Write something... (everyone can see)" />
-            {#await tx}
-                <div class="tx-pending">
-                    <span class="spinner-grow spinner-grow-sm text-secondary" role="status"></span>
-                    Transaction pending...
-                </div>
-            {/await}
+            <div class="tx-pending">
+                <a href="https://faucet.testnet.oasis.dev/" target="_blank" rel="noreferrer" class="text-success">Get Testnet Tokens<i class="bi bi-droplet-fill ms-1"></i></a>
+                {#await tx}
+                    <div>
+                        <span class="spinner-grow spinner-grow-sm text-secondary" role="status"></span>
+                        Transaction pending...
+                    </div>
+                {/await}
+            </div>
         </div>
 
         <div class="d-flex justify-content-between">
-            <img src="emerald-certified.png" alt="emerald-certified" class="gem" height="56">
+            <img src="emerald-certified.png" alt="emerald-certified" class="gem d-none d-sm-block" height="56">
+            <div class="d-block d-sm-none"></div>
             {#if connectedToEmerald}
                 <div class="send-container">
-                    <a href="https://faucet.testnet.oasis.dev/" target="_blank" rel="noreferrer" class="text-success">Get Testnet Tokens<i class="bi bi-droplet-fill ms-1"></i></a>
                     {#if sending}
                         <button class="btn btn-success" type="button" disabled>
                             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
@@ -140,7 +143,8 @@
 
 <MessageBox {messages} emptyMessage="No shouts yet">
     <span>
-        <i class="bi bi-megaphone-fill"></i>&nbsp;Shouts
+        <i class="bi bi-megaphone-fill me-2"></i>
+        <span class="d-none d-sm-inline-block">Shouts</span>
     </span>
     {#if connectedToEmerald}
         {#if refreshing}
