@@ -76,6 +76,7 @@
         <span class="github badge rounded-pill text-bg-secondary">
             <a href="https://github.com/joepetrakovich/whisper-and-shout-dapp" target="_blank" rel="noreferrer"><i class="bi bi-github me-2"></i>Github</a>
         </span>
+        <span class="badge text-bg-warning network"><i class="bi bi-cone-striped me-1"></i>Testnet</span>
     </div>
 </nav>
 
@@ -126,13 +127,19 @@
 </div>
 
 <style>
-    .current-account, .github {
+    .current-account, .github, .network {
         font-size: 0.9rem;
+    }
+    .current-account {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
     .account-badge {
         display:flex;
         justify-content: end;
         gap:8px;
+
     }
     .github a {
         text-decoration: none;
@@ -166,15 +173,21 @@
     }
     :global(.tx-pending) {
         display: flex;
-        justify-content: end;
+        justify-content: space-between;
         gap: 8px;
         font-size: 0.8rem;
         align-items: center;
         padding-top:4px;
+    }
+    :global(.tx-pending div) {
+        display: flex;
+        gap: 8px;
+        align-items: center;
         color: gray;
-        position: absolute;
-        right: 0;
-        padding-right: 1.5em;
+        white-space: nowrap;
+        overflow:hidden;
+        text-overflow: ellipsis;
+
     }
     :global(.send-container) {
         display: flex;

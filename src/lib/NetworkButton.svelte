@@ -43,12 +43,12 @@
     {#if mode === Mode.Shout}
         {#if networkStatus === OasisNetworkStatus.ON_EMERALD_PARATIME}
             <button class="btn btn-success glow">
-                <i class="bi bi-gem me-2"></i>Connected to Emerald Testnet
+                <i class="bi bi-gem me-2"></i>Connected to Emerald
             </button>
         {:else}
             <button class="btn btn-outline-success" 
                     on:click={() => switchTo(OASIS_EMERALD_TESTNET)}>
-                <i class="bi bi-gem me-2"></i>Connect to Emerald Testnet
+                <i class="bi bi-gem me-2"></i>Connect to Emerald
             </button>
         {/if}
     {/if}
@@ -56,11 +56,11 @@
     {#if mode === Mode.Whisper}
         {#if networkStatus === OasisNetworkStatus.ON_SAPPHIRE_PARATIME}
             <button class="btn btn-primary glow">
-                <i class="bi bi-suit-diamond-fill me-2"></i>Connected to Sapphire Testnet
+                <i class="bi bi-suit-diamond-fill me-2"></i>Connected to Sapphire
             </button>
         {:else}
             <button class="btn btn-outline-primary" on:click={() => switchTo(OASIS_SAPPHIRE_TESTNET)}>
-                <i class="bi bi-suit-diamond-fill me-2"></i>Connect to Sapphire Testnet
+                <i class="bi bi-suit-diamond-fill me-2"></i>Connect to Sapphire
             </button>
         {/if}
     {/if}
