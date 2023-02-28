@@ -6,12 +6,16 @@
     export let networkStatus: OasisNetworkStatus;
 
     const SWITCH_CHAIN_ERROR_CHAIN_NOT_ADDED: number = 4902;
+    const UNRECOGNIZED_CHAIN_ERROR: number = -32603;
 
     function switchTo(network: Network) {
         switchNetwork(network.chainIdHex)
         .catch(error => {
-            if (error.code === SWITCH_CHAIN_ERROR_CHAIN_NOT_ADDED) {
-                addNetwork(network);
+            if (error.code === SWITCH_CHAIN_ERROR_CHAIN_NOT_ADDED ||
+                error.code === UNRECOGNIZED_CHAIN_ERROR) {
+                addNetwork(network)
+            } else {
+                throw error;
             }
         });
     }
