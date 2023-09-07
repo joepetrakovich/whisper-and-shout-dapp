@@ -13,7 +13,6 @@
 		"format": "prettier --plugin-search-dir . --write ."
 	},
 	"devDependencies": {
-		"@oasisprotocol/sapphire-paratime": "^1.0.14",
 		"@playwright/test": "^1.28.1",
 		"@sveltejs/adapter-auto": "^2.0.0",
 		"@sveltejs/adapter-netlify": "^2.0.5",
@@ -34,6 +33,7 @@
 	"type": "module",
 	"dependencies": {
 		"@metamask/onboarding": "^1.0.1",
+		"@oasisprotocol/sapphire-paratime": "^1.1.1",
 		"ethers": "^6.0.6"
 	}
 }
